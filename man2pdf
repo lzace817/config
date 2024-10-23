@@ -1,0 +1,28 @@
+#!/bin/sh
+set -e
+usage(){
+   echo "usage:- man2pdf <manpage>" 1>&2
+}
+
+if [ "x$1" = "x" ]
+then
+   usage
+   exit 2
+fi
+
+target="$HOME/.man2pdf/$1.pdf"
+if [ -e "$target" ]
+then
+    evince "$target" &
+    exit 0
+fi
+
+temp=$(mktemp)
+if man -t "$1" > "$temp" && ps2pdf "$temp" "$target"
+then
+    # echo "done!"
+    evince "$target" &
+fi
+rm "$temp"
+#kpdf $1.pdf &
+# evince "$1.pdf" &

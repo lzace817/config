@@ -1,0 +1,50 @@
+# I hate the terminal. I whant to stay the least amount of time
+# using it. I just whant to get the job done. But because terminal is shit,
+# it makes me sad.
+# there are some applications that are very interesting and usefull, but
+# I can never manage to recall the parametres to the average case.
+# If the desing was proper, stuff should be optimized for those.
+# But here we are in 2024+ dealing with this legacy mess kepping us from
+# a proper user interface.
+# This is the motivation for the DUMB command series.
+# It should provide those usefull tools with sensible usage focused on the
+# average case, tunned for my particular needs.
+
+# design criteria:
+# - focused on the typical usefullness
+# - print usage on missuse
+# - small usage description
+#   - 1 line prefered
+#   - 3 lines is admisible
+#   - 5 lines absolute maximum
+# - do stuff relative do `.`, use cd or pushd to change it
+# - avoid polution error messages
+
+
+# findd
+# just want to find/explore by name
+findd() {
+    if [ "$#" -ne 1 ]; then
+        echo "Usage: findd <pattern>"
+    else
+        find -iname "$1" 2> /dev/null
+    fi
+}
+
+# grepd
+# have a project tree with a bunch of source code. Wanna find a spcecific definition
+# or usage across any of the source. But avoid hidden files and auto generated stuff.
+# filter by extension. But sometimes the sources you want to scan have no
+# a extension.
+grepd() {
+    if [ "$#" -eq 1 ]; then
+        find . -type f -not -name "*.*" -print0 | xargs -0 grep --color=auto -sn "$1"
+        return 0
+    fi
+    if [ "$#" -eq 2 ]; then
+        find . -type f -name "*.$2" -print0 | xargs -0 grep --color=auto -sn "$1"
+        return 0
+    fi
+    echo "Usage: grepd <pattern> <extension>"
+    return 1
+}
