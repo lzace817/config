@@ -3,7 +3,7 @@
 
 # dumb terminal stuff
 CS=$(realpath .)
-ln -sf "$CS/shell-fn" ~/.shell-fn
+ln -sf "$CS/shell-fn" ~/.bash_aliases
 
 # docs
 mkdir -p ~/.man2pdf
