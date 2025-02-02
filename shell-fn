@@ -48,3 +48,24 @@ grepd() {
     echo "Usage: grepd <pattern> <extension>"
     return 1
 }
+
+# lsfd
+# lsfd list files, but not the directories
+lsfd() {
+    if [ -t 1 ]; then
+        ls -p | grep -v / | column
+    else
+        ls -p | grep -v /
+    fi
+    # | paste -sd "\t" - | sed -e 's/\t/  /g'
+}
+
+# lsad
+# list anonimous extension files
+lsad() {
+    if [ -t 1 ]; then
+        lsfd | grep -v '\.' | column
+    else
+        lsfd | grep -v '\.'
+    fi
+}
