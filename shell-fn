@@ -34,8 +34,7 @@ findd() {
 # grepd
 # have a project tree with a bunch of source code. Wanna find a spcecific definition
 # or usage across any of the source. But avoid hidden files and auto generated stuff.
-# filter by extension. But sometimes the sources you want to scan have no
-# a extension.
+# filter by extension. But sometimes the sources you want to scan have no extension.
 grepd() {
     if [ "$#" -eq 1 ]; then
         find . -type f -not -name "*.*" -print0 | xargs -0 grep --color=auto -sn "$1"
@@ -69,3 +68,8 @@ lsad() {
         lsfd | grep -v '\.'
     fi
 }
+
+#
+# prompt with exit code
+#
+PS1='\n$(ret=$?;[[ $ret -ne 0 ]] && echo "\[\033[1;31m\]exit code: $ret | \[\033[0m\]")${debian_chroot:+($debian_chroot)}\[\033[01;34m\]\u@\h\[\033[00m\]:\[\033[01;34m\]\w\[\033[00m\]\n\$ '
