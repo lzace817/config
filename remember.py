@@ -22,7 +22,6 @@ def calculate_file_hash(file_path, hash_algorithm='md5'):
     hash_func = hashlib.new(hash_algorithm)
 
     with open(file_path, 'rb') as file:
-        # Read the file in chunks to avoid memory issues with large files
         while chunk := file.read(8192):
             hash_func.update(chunk)
 
@@ -53,9 +52,9 @@ file_count = m[target_file] + 1
 
 file_path = f"{directory_path}/{file_count:03}_{target_file}"
 source_path = f"./{target_file}"
-latest_path = f"{directory_path}/{m[target_file]:03}_{target_file}"
 
-if compare_files(latest_path, source_path):
+latest_path = f"{directory_path}/{m[target_file]:03}_{target_file}"
+if os.path.exists(latest_path) and compare_files(latest_path, source_path):
     print("Nothing to do")
     exit(0)
 
